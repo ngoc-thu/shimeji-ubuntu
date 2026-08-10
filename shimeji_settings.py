@@ -147,8 +147,8 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Linux Shimeji Settings")
-        self.geometry("700x600")
-        self.minsize(660, 560)
+        self.geometry("880x750")
+        self.minsize(780, 650)
         self.configure(padx=12, pady=12)
         self.option_add("*Font", "Sans 10")
         self.character_var = tk.StringVar()
