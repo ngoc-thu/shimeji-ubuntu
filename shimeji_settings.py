@@ -151,6 +151,15 @@ class App(tk.Tk):
         self.minsize(780, 650)
         self.configure(padx=12, pady=12)
         self.option_add("*Font", "Sans 10")
+
+        icon_path = os.path.join(IMG_DIR, "icon.png")
+        if os.path.exists(icon_path):
+            try:
+                self._app_icon = tk.PhotoImage(file=icon_path)
+                self.iconphoto(True, self._app_icon)
+            except Exception:
+                pass
+
         self.character_var = tk.StringVar()
         self.self_clone_var = tk.BooleanVar(value=True)
         self._build()
