@@ -18,7 +18,7 @@ A practical Ubuntu-focused Shimeji project with:
 - X11 frame/layer behavior tweaks
 - a small Settings GUI
 - multi-character switching
-- an expanded library of **400+ characters** sourced from [shimejis.xyz](https://shimejis.xyz/directory) (Genshin Impact, Pokémon, Naruto, Undertale, Vocaloid, Marvel, Homestuck, One Piece, etc.)
+- an expanded library of **400+ characters** (Genshin Impact, Pokémon, Naruto, Undertale, Vocaloid, Marvel, Homestuck, One Piece, etc.)
 - live search & real-time character preview in the Settings GUI
 - a toggle to enable or disable mascot self-cloning
 
@@ -88,7 +88,7 @@ The Settings GUI allows searching and previewing any character from the 400+ lib
 
 ## Included characters
 
-This project now includes **400+ character packs** from [shimejis.xyz](https://shimejis.xyz/directory), spanning popular franchises:
+This project now includes **400+ character packs**, spanning popular franchises:
 
 - **Genshin Impact** (Ayaka, Xiao Catboy, Kazuha, Diluc, Hu Tao, Zhongli, Albedo, Childe, Lumine, Aether...)
 - **Pokémon** (Pikachu, Eevee, Umbreon, Charizard, Squirtle, Mudkip, Gardevoir...)
