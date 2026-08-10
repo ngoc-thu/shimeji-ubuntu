@@ -6,3 +6,6 @@
 bin/
 conf2/
 img2/
+__pycache__/
+.current_character
+

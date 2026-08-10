@@ -7,7 +7,7 @@ import sys
 import tkinter as tk
 from tkinter import ttk, messagebox
 
-APP_ROOT = "/home/ngoctien/.openclaw/workspace/apps/linux-shimeji"
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 WINDOW_CONF = os.path.join(APP_ROOT, "window.conf")
 TITLES_CONF = os.path.join(APP_ROOT, "titles.conf")
 SETTINGS_PROPS = os.path.join(APP_ROOT, "settings.properties")
