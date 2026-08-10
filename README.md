@@ -18,7 +18,7 @@ A practical Ubuntu-focused Shimeji project with:
 - X11 frame/layer behavior tweaks
 - a small Settings GUI
 - multi-character switching
-- bundled character libraries for **Ayaka** and **Hatsune Miku**
+- bundled character libraries for **Ayaka**, **Hatsune Miku**, and **Xiao Catboy**
 - a toggle to enable or disable mascot self-cloning
 
 This project is still based on an old Java/X11 codebase, so it is best treated as a hobby desktop-pet build rather than a perfectly modern desktop integration.
@@ -68,6 +68,7 @@ This project supports a simple character library layout:
 characters/
   Ayaka/
   Miku/
+  XiaoCatboy/
 ```
 
 Each character folder contains `shime1.png` through `shime46.png`.
@@ -80,6 +81,7 @@ Currently bundled in this project:
 
 - **Ayaka**
 - **Hatsune Miku**
+- **Xiao Catboy** (by uuteki from [shimejis.xyz](https://shimejis.xyz/directory/shimeji/genshin-impact-xiao-catboy-by-uuteki))
 
 ### Character previews
 
@@ -87,10 +89,12 @@ Currently bundled in this project:
   <tr>
     <td align="center"><strong>Ayaka</strong></td>
     <td align="center"><strong>Hatsune Miku</strong></td>
+    <td align="center"><strong>Xiao Catboy</strong></td>
   </tr>
   <tr>
     <td align="center"><img src="docs/images/ayaka-preview.png" alt="Ayaka preview" width="128" /></td>
     <td align="center"><img src="docs/images/miku-preview.png" alt="Hatsune Miku preview" width="128" /></td>
+    <td align="center"><img src="docs/images/xiao-catboy-preview.png" alt="Xiao Catboy preview" width="128" /></td>
   </tr>
 </table>
 
