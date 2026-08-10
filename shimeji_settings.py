@@ -146,18 +146,27 @@ class App(tk.Tk):
         ttk.Label(top, text="Linux Shimeji Settings", font=("Sans", 14, "bold")).grid(row=0, column=0, sticky="w")
         ttk.Label(top, text="Chỉnh nhân vật, vị trí bám cửa sổ, titles và hành vi nhân bản.").grid(row=1, column=0, sticky="w", pady=(4, 10))
 
-        chars = ttk.LabelFrame(self, text="Character")
+        chars = ttk.LabelFrame(self, text="Character (400+ Library)")
         chars.grid(row=1, column=0, sticky="ew", pady=(0, 10))
         chars.grid_columnconfigure(1, weight=1)
-        ttk.Label(chars, text="Current character").grid(row=0, column=0, sticky="w", padx=10, pady=10)
+
+        # Search / Filter
+        ttk.Label(chars, text="Search / Filter").grid(row=0, column=0, sticky="w", padx=10, pady=(10, 4))
+        self.search_var = tk.StringVar()
+        self.search_entry = ttk.Entry(chars, textvariable=self.search_var)
+        self.search_entry.grid(row=0, column=1, columnspan=2, sticky="ew", padx=(0, 10), pady=(10, 4))
+        self.search_entry.bind("<KeyRelease>", lambda e: self.filter_characters())
+
+        # Combobox + Apply Button
+        ttk.Label(chars, text="Current character").grid(row=1, column=0, sticky="w", padx=10, pady=(4, 10))
         self.character_combo = ttk.Combobox(chars, textvariable=self.character_var, state="readonly", values=list_characters())
-        self.character_combo.grid(row=0, column=1, sticky="ew", padx=(0, 10), pady=10)
+        self.character_combo.grid(row=1, column=1, sticky="ew", padx=(0, 10), pady=(4, 10))
         self.character_combo.bind("<<ComboboxSelected>>", lambda e: self.update_preview())
-        ttk.Button(chars, text="Apply Character", command=self.apply_character_only).grid(row=0, column=2, sticky="e", padx=(0, 10), pady=10)
+        ttk.Button(chars, text="Apply Character", command=self.apply_character_only).grid(row=1, column=2, sticky="e", padx=(0, 10), pady=(4, 10))
 
         # Character Preview Frame
         preview_frame = ttk.Frame(chars)
-        preview_frame.grid(row=1, column=0, columnspan=3, pady=(0, 10))
+        preview_frame.grid(row=2, column=0, columnspan=3, pady=(0, 10))
         self.preview_label = ttk.Label(preview_frame)
         self.preview_label.pack()
         self._preview_img = None
@@ -215,6 +224,22 @@ class App(tk.Tk):
         ttk.Button(buttons, text="Restart Shimeji", command=self.restart).pack(side="left", padx=8)
         ttk.Button(buttons, text="Open App Folder", command=self.open_folder).pack(side="left")
         ttk.Button(buttons, text="Close", command=self.destroy).pack(side="right")
+
+    def filter_characters(self):
+        query = self.search_var.get().strip().lower()
+        all_chars = list_characters()
+        if not query:
+            filtered = all_chars
+        else:
+            filtered = [c for c in all_chars if query in c.lower()]
+        self.character_combo["values"] = filtered
+        if filtered:
+            if self.character_var.get() not in filtered:
+                self.character_var.set(filtered[0])
+            self.update_preview()
+        else:
+            self.character_var.set("")
+            self.update_preview()
 
     def update_preview(self):
         name = self.character_var.get().strip()

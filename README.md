@@ -18,7 +18,8 @@ A practical Ubuntu-focused Shimeji project with:
 - X11 frame/layer behavior tweaks
 - a small Settings GUI
 - multi-character switching
-- bundled character libraries for **Ayaka**, **Hatsune Miku**, and **Xiao Catboy**
+- an expanded library of **400+ characters** sourced from [shimejis.xyz](https://shimejis.xyz/directory) (Genshin Impact, Pokémon, Naruto, Undertale, Vocaloid, Marvel, Homestuck, One Piece, etc.)
+- live search & real-time character preview in the Settings GUI
 - a toggle to enable or disable mascot self-cloning
 
 This project is still based on an old Java/X11 codebase, so it is best treated as a hobby desktop-pet build rather than a perfectly modern desktop integration.
@@ -46,7 +47,7 @@ This project includes experiments around:
 
 These changes are specifically aimed at improving behavior on Ubuntu GNOME/X11 where mascots may otherwise flicker, clip into bars, or appear on the wrong layer.
 
-### 4. Built-in Settings GUI
+### 4. Built-in Settings GUI with Search & Live Preview
 A lightweight GUI settings tool is included:
 
 - `shimeji_settings.py`
@@ -54,6 +55,8 @@ A lightweight GUI settings tool is included:
 
 It can:
 
+- search & filter through **400+ characters** instantly
+- preview character images live before applying
 - edit `window.conf`
 - edit `titles.conf`
 - apply a selected character
@@ -61,27 +64,35 @@ It can:
 - restart Shimeji
 - open the app folder
 
-### 5. Multi-character switching
+### 5. Multi-character switching (400+ Characters)
 This project supports a simple character library layout:
 
 ```text
 characters/
   Ayaka/
+  Genshin_Kazuha/
   Miku/
+  Naruto_Kakashi/
+  Pokemon_Pikachu/
+  Undertale_Sans/
   XiaoCatboy/
+  ...
 ```
 
 Each character folder contains `shime1.png` through `shime46.png`.
 
-The Settings GUI can switch between bundled characters and apply them into the active `img/` set.
+The Settings GUI allows searching and previewing any character from the 400+ library and applying them into the active `img/` set.
 
 ## Included characters
 
-Currently bundled in this project:
+This project now includes **400+ character packs** from [shimejis.xyz](https://shimejis.xyz/directory), spanning popular franchises:
 
-- **Ayaka**
-- **Hatsune Miku**
-- **Xiao Catboy** (by uuteki from [shimejis.xyz](https://shimejis.xyz/directory/shimeji/genshin-impact-xiao-catboy-by-uuteki))
+- **Genshin Impact** (Ayaka, Xiao Catboy, Kazuha, Diluc, Hu Tao, Zhongli, Albedo, Childe, Lumine, Aether...)
+- **Pokémon** (Pikachu, Eevee, Umbreon, Charizard, Squirtle, Mudkip, Gardevoir...)
+- **Naruto** (Naruto, Sasuke, Kakashi, Gaara, Itachi, Hinata...)
+- **Undertale** (Sans, Papyrus, Frisk, Chara, Toriel, Undyne...)
+- **Vocaloid** (Hatsune Miku, Kagamine Rin/Len, Kaito, Luka...)
+- **Marvel / DC & Pop Culture** (Avengers, Spider-Man, Batman, Homestuck, One Piece, etc.)
 
 ### Character previews
 
