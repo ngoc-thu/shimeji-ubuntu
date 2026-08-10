@@ -118,8 +118,28 @@ def write_settings_props(self_cloning_enabled):
         f.write("selfCloningEnabled=%s\n" % ("true" if self_cloning_enabled else "false"))
 
 
-def restart_shimeji():
+def spawn_character(name):
+    char_dir = os.path.join(CHARACTERS_DIR, name)
+    if not os.path.isdir(char_dir):
+        return
+    cp = f"{char_dir}:{APP_ROOT}/Shimeji.jar"
+    cmd = [
+        "java",
+        "-Xmx64m",
+        "-classpath",
+        cp,
+        "com.group_finity.mascot.Main",
+        "-Djava.util.logging.config.file=" + os.path.join(APP_ROOT, "conf", "logging.properties"),
+    ]
+    subprocess.Popen(cmd, cwd=APP_ROOT)
+
+
+def kill_all_mascots():
     subprocess.run("pkill -f 'com.group_finity.mascot.Main'", shell=True)
+
+
+def restart_shimeji():
+    kill_all_mascots()
     subprocess.Popen([RUN_SCRIPT], cwd=APP_ROOT)
 
 
@@ -157,12 +177,17 @@ class App(tk.Tk):
         self.search_entry.grid(row=0, column=1, columnspan=2, sticky="ew", padx=(0, 10), pady=(10, 4))
         self.search_entry.bind("<KeyRelease>", lambda e: self.filter_characters())
 
-        # Combobox + Apply Button
+        # Combobox + Buttons
         ttk.Label(chars, text="Current character").grid(row=1, column=0, sticky="w", padx=10, pady=(4, 10))
         self.character_combo = ttk.Combobox(chars, textvariable=self.character_var, state="readonly", values=list_characters())
         self.character_combo.grid(row=1, column=1, sticky="ew", padx=(0, 10), pady=(4, 10))
         self.character_combo.bind("<<ComboboxSelected>>", lambda e: self.update_preview())
-        ttk.Button(chars, text="Apply Character", command=self.apply_character_only).grid(row=1, column=2, sticky="e", padx=(0, 10), pady=(4, 10))
+
+        char_btn_frame = ttk.Frame(chars)
+        char_btn_frame.grid(row=1, column=2, sticky="e", padx=(0, 10), pady=(4, 10))
+        ttk.Button(char_btn_frame, text="Apply Character", command=self.apply_character_only).pack(side="left", padx=2)
+        ttk.Button(char_btn_frame, text="Thả NV này", command=self.spawn_selected).pack(side="left", padx=2)
+        ttk.Button(char_btn_frame, text="Thả TẤT CẢ NV", command=self.spawn_all).pack(side="left", padx=2)
 
         # Character Preview Frame
         preview_frame = ttk.Frame(chars)
@@ -219,10 +244,12 @@ class App(tk.Tk):
         buttons = ttk.Frame(self)
         buttons.grid(row=5, column=0, sticky="ew", pady=(12, 0))
         ttk.Button(buttons, text="Save", command=self.save).pack(side="left")
-        ttk.Button(buttons, text="Apply + Restart", command=self.apply_all).pack(side="left", padx=8)
-        ttk.Button(buttons, text="Reset window.conf", command=self.reset_window).pack(side="left")
-        ttk.Button(buttons, text="Restart Shimeji", command=self.restart).pack(side="left", padx=8)
-        ttk.Button(buttons, text="Open App Folder", command=self.open_folder).pack(side="left")
+        ttk.Button(buttons, text="Apply + Restart", command=self.apply_all).pack(side="left", padx=4)
+        ttk.Button(buttons, text="Thả TẤT CẢ NV", command=self.spawn_all).pack(side="left", padx=4)
+        ttk.Button(buttons, text="Tắt TẤT CẢ NV", command=self.kill_all).pack(side="left", padx=4)
+        ttk.Button(buttons, text="Reset window.conf", command=self.reset_window).pack(side="left", padx=4)
+        ttk.Button(buttons, text="Restart Shimeji", command=self.restart).pack(side="left", padx=4)
+        ttk.Button(buttons, text="Open Folder", command=self.open_folder).pack(side="left", padx=4)
         ttk.Button(buttons, text="Close", command=self.destroy).pack(side="right")
 
     def filter_characters(self):
@@ -312,6 +339,41 @@ class App(tk.Tk):
             messagebox.showinfo("Restarted", "Đã restart Linux Shimeji.")
         except Exception as e:
             messagebox.showerror("Restart failed", str(e))
+
+    def spawn_selected(self):
+        name = self.character_var.get().strip()
+        if not name:
+            messagebox.showerror("No character", "Chưa chọn nhân vật.")
+            return
+        spawn_character(name)
+        messagebox.showinfo("Spawned", f"Đã thả nhân vật '{name}' ra màn hình!")
+
+    def spawn_all(self):
+        chars = list_characters()
+        if not chars:
+            messagebox.showerror("No characters", "Không tìm thấy nhân vật nào.")
+            return
+        res = messagebox.askyesnocancel(
+            "Thả tất cả nhân vật",
+            f"Tìm thấy {len(chars)} nhân vật trong thư viện.\n\n"
+            f"• Bấm 'YES' để thả TẤT CẢ {len(chars)} nhân vật ra màn hình.\n"
+            f"• Bấm 'NO' để thả 20 nhân vật ngẫu nhiên.\n"
+            f"• Bấm 'CANCEL' để hủy."
+        )
+        if res is True:
+            for name in chars:
+                spawn_character(name)
+            messagebox.showinfo("Spawn All", f"Đã kích hoạt thả {len(chars)} nhân vật ra màn hình!")
+        elif res is False:
+            import random
+            sample = random.sample(chars, min(20, len(chars)))
+            for name in sample:
+                spawn_character(name)
+            messagebox.showinfo("Spawn 20", f"Đã thả 20 nhân vật ngẫu nhiên ra màn hình!")
+
+    def kill_all(self):
+        kill_all_mascots()
+        messagebox.showinfo("Cleared", "Đã đóng tất cả nhân vật trên màn hình.")
 
     def open_folder(self):
         subprocess.Popen(["xdg-open", APP_ROOT])

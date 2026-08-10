@@ -57,6 +57,9 @@ It can:
 
 - search & filter through **400+ characters** instantly
 - preview character images live before applying
+- **Spawn Selected Character** / **Thả NV này**: spawn an extra mascot of the chosen character directly onto screen
+- **Spawn ALL Characters** / **Thả TẤT CẢ NV**: spawn all 400+ characters (or a 20-character random batch) onto the desktop
+- **Kill All Mascots** / **Tắt TẤT CẢ NV**: close all active desktop mascots in one click
 - edit `window.conf`
 - edit `titles.conf`
 - apply a selected character
