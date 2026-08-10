@@ -152,7 +152,15 @@ class App(tk.Tk):
         ttk.Label(chars, text="Current character").grid(row=0, column=0, sticky="w", padx=10, pady=10)
         self.character_combo = ttk.Combobox(chars, textvariable=self.character_var, state="readonly", values=list_characters())
         self.character_combo.grid(row=0, column=1, sticky="ew", padx=(0, 10), pady=10)
+        self.character_combo.bind("<<ComboboxSelected>>", lambda e: self.update_preview())
         ttk.Button(chars, text="Apply Character", command=self.apply_character_only).grid(row=0, column=2, sticky="e", padx=(0, 10), pady=10)
+
+        # Character Preview Frame
+        preview_frame = ttk.Frame(chars)
+        preview_frame.grid(row=1, column=0, columnspan=3, pady=(0, 10))
+        self.preview_label = ttk.Label(preview_frame)
+        self.preview_label.pack()
+        self._preview_img = None
 
         behavior = ttk.LabelFrame(self, text="Behavior")
         behavior.grid(row=2, column=0, sticky="ew", pady=(0, 10))
@@ -208,6 +216,20 @@ class App(tk.Tk):
         ttk.Button(buttons, text="Open App Folder", command=self.open_folder).pack(side="left")
         ttk.Button(buttons, text="Close", command=self.destroy).pack(side="right")
 
+    def update_preview(self):
+        name = self.character_var.get().strip()
+        img_path = os.path.join(CHARACTERS_DIR, name, "shime1.png")
+        if os.path.exists(img_path):
+            try:
+                img = tk.PhotoImage(file=img_path)
+                self.preview_label.configure(image=img, text="")
+                self._preview_img = img
+                return
+            except Exception:
+                pass
+        self.preview_label.configure(image="", text="[No preview available]")
+        self._preview_img = None
+
     def load_values(self):
         chars = list_characters()
         self.character_combo["values"] = chars
@@ -215,6 +237,7 @@ class App(tk.Tk):
         if current not in chars and chars:
             current = chars[0]
         self.character_var.set(current)
+        self.update_preview()
         props = read_settings_props()
         self.self_clone_var.set(bool(props.get("selfCloningEnabled", True)))
         vals = read_window_conf()
